@@ -5,9 +5,11 @@ const fileUpload = require('express-fileupload');
 const MongoClient = require('mongodb').MongoClient;
 require('dotenv').config();
 
-const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.swu9d.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.qs1yz.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 
-const app = express();
+
+const app = express()
+
 app.use(bodyParser.json());
 app.use(cors());
 app.use(express.static('services'));
@@ -43,6 +45,13 @@ client.connect(err => {
                 res.send(result.insertedCount > 0);
             })
     })
+
+    app.get('/services', (req, res) => {
+        servicesCollection.find({})
+            .toArray((err, documents) => {
+                res.send(documents);
+            })
+    });
     
 });
 app.listen(process.env.PORT || port)
