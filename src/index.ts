@@ -18,7 +18,7 @@ app.use(fileUpload());
 
 const port = 5000;
 
-app.get("/", (req, res) => {
+app.get("/", (req: any, res: any) => {
   res.send("hello from db it's working working");
 });
 
@@ -26,14 +26,14 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 
 client
   .connect()
-  .then((res) => {
+  .then((res: any) => {
     {
       const servicesCollection = client.db("creativeAgency").collection("services");
       const usersCollection = client.db("creativeAgency").collection("users");
       const adminsCollection = client.db("creativeAgency").collection("admins");
       const reviewsCollection = client.db("creativeAgency").collection("reviews");
 
-      app.post("/addService", (req, res) => {
+      app.post("/addService", (req: any, res: any) => {
         const file = req.files.file;
         const serviceTitle = req.body.serviceTitle;
         const serviceDescription = req.body.serviceDescription;
@@ -48,18 +48,18 @@ client
           img: Buffer.from(encImg, "base64"),
         };
 
-        servicesCollection.insertOne({ serviceTitle, serviceDescription, image }).then((result) => {
+        servicesCollection.insertOne({ serviceTitle, serviceDescription, image }).then((result: any) => {
           res.send(result.insertedCount > 0);
         });
       });
 
-      app.get("/services", (req, res) => {
-        servicesCollection.find({}).toArray((err, documents) => {
+      app.get("/services", (req: any, res: any) => {
+        servicesCollection.find({}).toArray((err: any, documents: any) => {
           res.send(documents);
         });
       });
 
-      app.post("/addOrder", (req, res) => {
+      app.post("/addOrder", (req: any, res: any) => {
         const file = req.files.file;
         const name = req.body.name;
         const email = req.body.email;
@@ -79,67 +79,67 @@ client
           img: Buffer.from(encImg, "base64"),
         };
 
-        usersCollection.insertOne({ name, email, serviceName, projectDetails, price, status, image }).then((result) => {
+        usersCollection.insertOne({ name, email, serviceName, projectDetails, price, status, image }).then((result: any) => {
           res.send(result.insertedCount > 0);
         });
       });
 
-      app.get("/oneService", (req, res) => {
+      app.get("/oneService", (req: any, res: any) => {
         console.log(req.query.serviceTitle);
-        servicesCollection.find({ serviceTitle: req.query.serviceTitle }).toArray((err, documents) => {
+        servicesCollection.find({ serviceTitle: req.query.serviceTitle }).toArray((err: any, documents: any) => {
           res.send(documents);
         });
       });
 
-      app.get("/serviceInfo", (req, res) => {
-        servicesCollection.find({ serviceTitle: req.query.serviceTitle }).toArray((err, documents) => {
+      app.get("/serviceInfo", (req: any, res: any) => {
+        servicesCollection.find({ serviceTitle: req.query.serviceTitle }).toArray((err: any, documents: any) => {
           res.send(documents);
         });
       });
 
-      app.get("/personalService", (req, res) => {
-        usersCollection.find({ email: req.query.email }).toArray((err, documents) => {
+      app.get("/personalService", (req: any, res: any) => {
+        usersCollection.find({ email: req.query.email }).toArray((err: any, documents: any) => {
           res.send(documents);
         });
       });
 
-      app.post("/addReview", (req, res) => {
+      app.post("/addReview", (req: any, res: any) => {
         const newReview = req.body;
-        reviewsCollection.insertOne(newReview).then((result) => {
+        reviewsCollection.insertOne(newReview).then((result: any) => {
           res.send(result.insertedCount > 0);
         });
       });
 
-      app.get("/reviews", (req, res) => {
+      app.get("/reviews", (req: any, res: any) => {
         reviewsCollection
           .find({})
           .limit(5)
-          .toArray((err, documents) => {
+          .toArray((err: any, documents: any) => {
             res.send(documents);
           });
       });
 
-      app.post("/addAdmin", (req, res) => {
+      app.post("/addAdmin", (req: any, res: any) => {
         const newAdmin = req.body;
-        adminsCollection.insertOne(newAdmin).then((result) => {
+        adminsCollection.insertOne(newAdmin).then((result: any) => {
           res.send(result.insertedCount > 0);
         });
       });
 
-      app.get("/allUsers", (req, res) => {
-        usersCollection.find({}).toArray((err, documents) => {
+      app.get("/allUsers", (req: any, res: any) => {
+        usersCollection.find({}).toArray((err: any, documents: any) => {
           res.send(documents);
         });
       });
 
-      app.post("/isAdmin", (req, res) => {
+      app.post("/isAdmin", (req: any, res: any) => {
         const email = req.body.email;
-        adminsCollection.find({ email: email }).toArray((err, admins) => {
+        adminsCollection.find({ email: email }).toArray((err: any, admins: any) => {
           res.send(admins.length > 0);
         });
       });
 
-      app.patch("/updateStatus/:id", (req, res) => {
+      app.patch("/updateStatus/:id", (req: any, res: any) => {
         usersCollection
           .updateOne(
             { _id: ObjectId(req.params.id) },
@@ -147,12 +147,12 @@ client
               $set: { status: req.body.status },
             }
           )
-          .then((result) => {
+          .then((result: any) => {
             res.send(result.modifiedCount > 0);
           });
       });
     }
   })
-  .catch((err) => console.log("There is Errooor", err));
+  .catch((err: any) => console.log("There is Errooor", err));
 
 app.listen(process.env.PORT || port);
