@@ -12,10 +12,11 @@ dotenv.config();
 // const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.qs1yz.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 
 const app = express();
-
 app.use(bodyParser.json());
-app.use(router);
 app.use(cors());
+
+app.use(router);
+
 app.use(express.static("services"));
 app.use(fileUpload());
 
