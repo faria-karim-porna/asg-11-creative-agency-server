@@ -61,16 +61,11 @@ const addOrder = async (req: Request, res: Response): Promise<void> => {
 const updateStatus = async (req: Request, res: Response): Promise<void> => {
   try {
     const param = req.params;
-    const _id = param._id;
+    const _id = param.id;
 
     const body = req.body as Pick<IUsers, keyof IUsers>;
+    const updatedUser = await Users.findByIdAndUpdate<IUsers | null>({ _id: _id }, { status: body.status });
 
-    await Users.updateOne<IUsers | null>(
-      { _id: new mongoose.Types.ObjectId(_id) },
-      {
-        $set: { status: body.status },
-      }
-    );
     const allUsers: IUsers[] = await Users.find({});
     res.status(200).json({
       allUsers,

@@ -8,13 +8,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateStatus = exports.addOrder = exports.getAllUsers = exports.getPersonalService = void 0;
 const usersModel_1 = require("../models/usersModel");
-const mongoose_1 = __importDefault(require("mongoose"));
 // import mongodb from "mongodb";
 const getPersonalService = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -61,7 +57,7 @@ const addOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
         const newUser = yield user.save();
         const allUsers = yield usersModel_1.Users.find();
-        res.status(201).json({ message: "New User Added", user: newUser, users: allUsers });
+        res.status(201).json({ message: "New Order Added", user: newUser, users: allUsers });
     }
     catch (error) {
         throw error;
@@ -71,11 +67,9 @@ exports.addOrder = addOrder;
 const updateStatus = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const param = req.params;
-        const _id = param._id;
+        const _id = param.id;
         const body = req.body;
-        yield usersModel_1.Users.updateOne({ _id: new mongoose_1.default.Types.ObjectId(_id) }, {
-            $set: { status: body.status },
-        });
+        const updatedUser = yield usersModel_1.Users.findByIdAndUpdate({ _id: _id }, { status: body.status });
         const allUsers = yield usersModel_1.Users.find({});
         res.status(200).json({
             allUsers,

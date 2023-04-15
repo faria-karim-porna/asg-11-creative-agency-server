@@ -17,5 +17,5 @@ router.get("/serviceInfo", servicesController_1.getServiceInfo);
 router.post("/addOrder", usersController_1.addOrder);
 router.get("/personalService", usersController_1.getPersonalService);
 router.get("/allUsers", usersController_1.getAllUsers);
-router.patch("/updateStatus/:id", usersController_1.updateStatus);
+router.put("/updateStatus/:id", usersController_1.updateStatus);
 exports.default = router;

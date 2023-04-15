@@ -28,7 +28,7 @@ router.get("/personalService", getPersonalService);
 
 router.get("/allUsers", getAllUsers);
 
-router.patch("/updateStatus/:id", updateStatus);
+router.put("/updateStatus/:id", updateStatus);
 
 
 export default router;
