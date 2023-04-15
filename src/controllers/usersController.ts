@@ -52,7 +52,7 @@ const addOrder = async (req: Request, res: Response): Promise<void> => {
     const newUser: IUsers = await user.save();
     const allUsers: IUsers[] = await Users.find();
 
-    res.status(201).json({ message: "New User Added", user: newUser, users: allUsers });
+    res.status(201).json({ message: "New Order Added", user: newUser, users: allUsers });
   } catch (error) {
     throw error;
   }
