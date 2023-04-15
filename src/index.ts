@@ -15,11 +15,11 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-app.use(router);
+
 
 app.use(express.static("services"));
 app.use(fileUpload());
-
+app.use(router);
 const port = 5000;
 
 app.get("/", (req: any, res: any) => {
